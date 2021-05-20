@@ -1,0 +1,35 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: tracing-gateway
+spec:
+  selector:
+    istio: ingressgateway # use istio default controller
+  servers:
+  - port:
+      number: 80
+      name: http
+      protocol: HTTP
+    hosts:
+    - "*"
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: tracing
+spec:
+  hosts:
+  - "*"
+  gateways:
+  - tracing-gateway
+  http:
+  - match:
+    - uri:
+        exact: /hello
+    - uri:
+        exact: /call
+    route:
+    - destination:
+        host: micro1
+        port:
+          number: 8080

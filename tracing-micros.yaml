@@ -1,0 +1,160 @@
+
+##################################################################################################
+# Micro1 service
+##################################################################################################
+apiVersion: v1
+kind: Service
+metadata:
+  name: micro1
+  labels:
+    app: micro1
+    service: micro1
+spec:
+  ports:
+  - port: 8080
+    name: http
+  selector:
+    app: micro1
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: micro1
+  labels:
+    account: micro1
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: micro1
+  labels:
+    app: micro1
+    version: v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: micro1
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: micro1
+        version: v1
+    spec:
+      serviceAccountName: micro1
+      containers:
+      - name: micro1
+        image: diegochavezcarro/tracing-micro1:v1
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8080
+        securityContext:
+          runAsUser: 1000
+---
+##################################################################################################
+# Micro2 service
+##################################################################################################
+apiVersion: v1
+kind: Service
+metadata:
+  name: micro2
+  labels:
+    app: micro2
+    service: micro2
+spec:
+  ports:
+  - port: 8081
+    name: http
+  selector:
+    app: micro2
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: micro2
+  labels:
+    account: micro2
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: micro2
+  labels:
+    app: micro2
+    version: v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: micro2
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: micro2
+        version: v1
+    spec:
+      serviceAccountName: micro2
+      containers:
+      - name: micro2
+        image: diegochavezcarro/tracing-micro2:v1
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8081
+        securityContext:
+          runAsUser: 1000
+---
+##################################################################################################
+# Micro3 service
+##################################################################################################
+apiVersion: v1
+kind: Service
+metadata:
+  name: micro3
+  labels:
+    app: micro3
+    service: micro3
+spec:
+  ports:
+  - port: 8082
+    name: http
+  selector:
+    app: micro3
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: micro3
+  labels:
+    account: micro3
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: micro3
+  labels:
+    app: micro3
+    version: v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: micro3
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: micro3
+        version: v1
+    spec:
+      serviceAccountName: micro3
+      containers:
+      - name: micro3
+        image: diegochavezcarro/tracing-micro3:v1
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8082
+        securityContext:
+          runAsUser: 1000
+---
