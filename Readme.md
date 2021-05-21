@@ -131,5 +131,20 @@ De esta manera se puede ver la trazabilidad completa:
 
 # Conclusion:
 
+Istio propaga headers para OpenTelemetry de forma automatica entre los proxy Envoy, pero dentro de los microservicios hay que tomar esos headers y propagarlos hacia los demas que se vayan llamando.
+En lenguajes como Java con Spring es posible propagar automaticamente las trazas al utilizar librerias que lo soporten, ver:
+
+https://github.com/diegochavezcarro/camunda-retry
+
+Donde utilizando ciertas librerias como opentracing-spring-jaeger-cloud-starter y declarando donde esta el Jaeger (en caso Istio no es necesario) ya se resuelver todo, ver por ejemplo como incluso se propagan las trazas enntre diferentes threads con comunicacion asincronica (la zona donde no hay continuidad se debe a que hay un Kafka):
+
+![alt](opentracingkafka.png)
+
+En el caso de Golang hay que hacerlo de forma programatica. En el caso Istio podria alcanzar propagando ciertos headers. En caso este por fuera de Istio hay que crear todos los Traces y Spans, ver:
+
+https://www.youtube.com/watch?v=idDu_jXqf4E
+
+
+
 
 
