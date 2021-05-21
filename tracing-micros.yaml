@@ -46,7 +46,7 @@ spec:
       containers:
       - name: micro1
         image: diegochavezcarro/tracing-micro1:v1
-        imagePullPolicy: IfNotPresent
+        imagePullPolicy: Always
         ports:
         - containerPort: 8080
         securityContext:
@@ -99,7 +99,7 @@ spec:
       containers:
       - name: micro2
         image: diegochavezcarro/tracing-micro2:v1
-        imagePullPolicy: IfNotPresent
+        imagePullPolicy: Always
         ports:
         - containerPort: 8081
         securityContext:
@@ -152,7 +152,7 @@ spec:
       containers:
       - name: micro3
         image: diegochavezcarro/tracing-micro3:v1
-        imagePullPolicy: IfNotPresent
+        imagePullPolicy: Always
         ports:
         - containerPort: 8082
         securityContext:

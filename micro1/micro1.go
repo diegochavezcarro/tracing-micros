@@ -16,8 +16,34 @@ func viewHandler(writer http.ResponseWriter, request *http.Request) {
 }
 
 func callMicro2(writer http.ResponseWriter, request *http.Request) {
+	tracingHeaders := []string{
+		"x-request-id",
+		"x-b3-traceid",
+		"x-b3-spanid",
+		"x-b3-sampled",
+		"x-b3-parentspanid",
+		"x-b3-flags",
+		"x-ot-span-context",
+	}
+	headersToSend := make(map[string]string)
 
-	response, err := http.Get("http://micro2:8081/call")
+	for _, key := range tracingHeaders {
+		if val := request.Header.Get(key); val != "" {
+			headersToSend[key] = val
+		}
+	}
+
+	client := &http.Client{}
+	req, err := http.NewRequest("GET", "http://micro2:8081/call", nil)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	for clave, valor := range headersToSend {
+		req.Header.Add(clave, valor)
+	}
+	response, err := client.Do(req)
+	//response, err := http.Get("http://micro2:8081/call")
 	if err != nil {
 		log.Fatal(err)
 	}
