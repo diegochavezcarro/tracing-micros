@@ -18,3 +18,9 @@ kubectl apply -f tracing-gateway.yaml
 
 kubectl get svc -n istio-system    
 
+![alt](opentracing1.png)
+
+![alt](opentracing2.png)
+
+
+
